@@ -1,0 +1,117 @@
+{
+	"contentrating" : "Everyone",
+	"file" : "index.html",
+	"general" : 
+	{
+		"localization" : 
+		{
+			"ar-sa" : 
+			{
+				"ui_fps_show" : "Display FPS",
+				"ui_max_fps" : "تقييد الإطار",
+				"ui_max_particles" : "الحد الأقصى لعدد الجزيئات",
+				"ui_particle_size" : "حجم الجسيمات",
+				"ui_show_audio" : "التصور الصوتي",
+				"ui_td_show" : "عرض التاريخ والوقت"
+			},
+			"en-us" : 
+			{
+				"ui_fps_show" : "Display FPS",
+				"ui_max_fps" : "Frame restriction",
+				"ui_max_particles" : "The maximum number of particles",
+				"ui_particle_size" : "Particle size",
+				"ui_show_audio" : "Audio visualization",
+				"ui_td_show" : "Display date and time"
+			},
+			"es-es" : 
+			{
+				"ui_fps_show" : "Mostrar FPS",
+				"ui_max_fps" : "Restricción de trama",
+				"ui_max_particles" : "El número máximo de partículas",
+				"ui_particle_size" : "Tamaño de partícula",
+				"ui_show_audio" : "Visualización de audio",
+				"ui_td_show" : "Mostrar fecha y hora"
+			},
+			"fr-fr" : 
+			{
+				"ui_fps_show" : "Afficher le FPS",
+				"ui_max_fps" : "Restriction de trame",
+				"ui_max_particles" : "Le nombre maximum de particules",
+				"ui_particle_size" : "Taille de particule",
+				"ui_show_audio" : "Visualisation audio",
+				"ui_td_show" : "Afficher la date et l'heure"
+			},
+			"ru-ru" : 
+			{
+				"ui_fps_show" : "Отображать ФПС",
+				"ui_max_fps" : "Ограничение кадров",
+				"ui_max_particles" : "Маскимальное количесво частиц",
+				"ui_particle_size" : "Размер частиц",
+				"ui_show_audio" : "Визуализация аудио",
+				"ui_td_show" : "Отображать дату и время"
+			},
+			"sh-chs" : 
+			{
+				"ui_fps_show" : "显示FPS",
+				"ui_max_fps" : "帧限制",
+				"ui_max_particles" : "最大粒子数",
+				"ui_particle_size" : "粒径",
+				"ui_show_audio" : "音频可视化",
+				"ui_td_show" : "显示日期和时间"
+			}
+		},
+		"properties" : 
+		{
+			"fps_max" : 
+			{
+				"text" : "ui_max_fps",
+				"type" : "textinput",
+				"value" : 30
+			},
+			"fps_show" : 
+			{
+				"text" : "ui_fps_show",
+				"type" : "bool",
+				"value" : false
+			},
+			"max_particles" : 
+			{
+				"text" : "ui_max_particles",
+				"type" : "textinput",
+				"value" : 300
+			},
+			"particle_size" : 
+			{
+				"text" : "ui_particle_size",
+				"type" : "textinput",
+				"value" : 2
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0 0 0"
+			},
+			"show_audio" : 
+			{
+				"text" : "ui_show_audio",
+				"type" : "bool",
+				"value" : true
+			},
+			"td_show" : 
+			{
+				"text" : "ui_td_show",
+				"type" : "bool",
+				"value" : true
+			}
+		},
+		"supportsaudioprocessing" : true
+	},
+	"preview" : "preview.jpg",
+	"tags" : [ "Relaxing" ],
+	"title" : "Samurai Particle Wallpaper",
+	"type" : "web",
+	"visibility" : "public",
+	"workshopid" : "1826794738"
+}

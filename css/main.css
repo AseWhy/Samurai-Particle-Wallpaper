@@ -1,0 +1,9 @@
+@font-face{
+    font-family: "Linetoline";
+    src: url("fonts/Linetoline.ttf");
+}
+
+body {
+    background-color: black;
+    margin: 0px;
+}
