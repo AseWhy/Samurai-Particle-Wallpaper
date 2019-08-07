@@ -1,28 +1,16 @@
+/**
+ * @file        main.js
+ *              Here the appearance of the desktop 
+ *              is formed, audio visualization, and
+ *              other rendering
+ * 
+ * @author      FFDP P1ramidka
+ * @version     0.3 
+ * @license     MIT
+ */
+
 const GRAP = document.getElementById("GRAPHICHS"),
-      CONT = GRAP.getContext("2d"),
-      SETTINGS = {
-        max_particles: 300,
-        delta_wait: 1000 / 60,
-        particle_size: 2,
-        td_show: true,
-        fps_show: false,
-        draw_audio: true,
-        fps: {
-            color: "#000000",
-            font_size: 16,
-            font_family: "monospace"
-        },
-        date: {
-            color: "#000000",
-            font_size: 72,
-            font_family: "Linetoline"
-        },
-        time: {
-            color: "#000000",
-            font_size: 34,
-            font_family: "Linetoline"
-        }
-      }
+      CONT = GRAP.getContext("2d");
 
 //normalize canvas
 GRAP.width = document.body.offsetWidth;
@@ -45,7 +33,21 @@ var getBimap = (img) => {
         context.drawImage(img, 0, 0);
         return context.getImageData(0, 0, img.width, img.height);
 },
-push_image = (data, chunck_size, width, height, empty = 255*3) => {
+/**
+ *
+ * Checks every line of the image if 
+ * it does not come across an 
+ * empty pixel, puts the particle 
+ * emitter in its place
+ *
+ *
+ * @param data - image data
+ * @param chunck_size - is particle size
+ * @param width - canvas width
+ * @param height - canvas height
+ * @return imageData
+ */
+push_image = (data, chunck_size, width, height) => {
     var x = 0,
         y = 0,
         line_buffer = [],
@@ -64,10 +66,9 @@ push_image = (data, chunck_size, width, height, empty = 255*3) => {
         y = Math.floor((i / 4) / data.width);
         x = (i / 4) - (y * data.width);
 
-        if(data.data[i]+data.data[i+1]+data.data[i+2] !== empty &&
+        if((data.data[i] <= SETTINGS.white_border && data.data[i+1] <= SETTINGS.white_border && data.data[i+2] <= SETTINGS.white_border) &&
              line_buffer[y] === undefined &&
-             (y % line_dump) === 0 &&
-             data.data[i+(4*5)]){
+             (y % line_dump) === 0){
             line_buffer[y] = x;
             
             for(var j = 0;j < on_line_dump;j++){
@@ -78,9 +79,9 @@ push_image = (data, chunck_size, width, height, empty = 255*3) => {
                     chunck_size,
                     170,
                     {
-                        r: data.data[i+(4*5)],
-                        g: data.data[i+(4*5)+1],
-                        b: data.data[i+(4*5)+2]
+                        r: data.data[i],
+                        g: data.data[i+1],
+                        b: data.data[i+2]
                     }
                 );
 
@@ -91,12 +92,28 @@ push_image = (data, chunck_size, width, height, empty = 255*3) => {
 
     return particles;
 },
+/**
+ * Returns a formatted date
+ * 
+ * @param date - is a Date object
+ * @return Object {
+ *  date - is a formatted date
+ *  time - is a formatted time 
+ * }
+ */
 formate_date = (date) => {
     return {
         date: (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + "." + (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1 )) + "." + date.getFullYear(),
         time: (date.getHours() < 10 ? "0" + date.getHours() : date.getHours())  + ":" +  (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes())  + ":" + (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds())
     }
 },
+/**
+ * Prepares the image for rendering, removes empty pixels, in 
+ * the future the goals of this function may change
+ * 
+ * @param bitmap - is a ImageData object
+ * @return a canvas ready for rendering
+ */
 prepare_to_render = (bitmap) => {
     var canvas = document.createElement("canvas"),
         ctx = canvas.getContext("2d");
@@ -105,7 +122,7 @@ prepare_to_render = (bitmap) => {
         canvas.height = bitmap.height;
 
     for(var i = 0;i < bitmap.data.length;i+=4){
-        if(bitmap.data[i] > 230 && bitmap.data[i+1] > 230 && bitmap.data[i+2] > 230){
+        if(bitmap.data[i] > SETTINGS.white_border && bitmap.data[i+1] > SETTINGS.white_border && bitmap.data[i+2] > SETTINGS.white_border){
             bitmap.data[i+3] = 0;
         }
     }
@@ -113,9 +130,34 @@ prepare_to_render = (bitmap) => {
     ctx.putImageData(bitmap, 0, 0)
 
     return canvas;
+},
+/**
+ * Gets the local file in the url path and 
+ * returns base64 in the callback
+ * 
+ * @param url - file url
+ * @param res - is response callback 
+ * @param warn - is error callback
+ * @return base64 in the callback
+ */
+GetB64FromFile = (url, res, warn) => {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'blob';
+    request.onload = function() {
+        var reader = new FileReader();
+        reader.readAsDataURL(request.response);
+        reader.onload =  function(e){
+            res(e.target.result);
+        };
+        reader.onerror = warn;
+    };
+    request.onerror = warn;
+    request.send();
 };
 
-(()=>{
+
+(() => {
     var pointer_y = 0;
         clear_img = new Image(),
         clear_img_btm = null,
@@ -128,13 +170,32 @@ prepare_to_render = (bitmap) => {
         delta_width = 0,
         fps = "",
         frames = 0,
-        inited = false,
         delta = 0;
 
-    function ClearBG(){
-        clear_img.src = background;
+    
+    clear_img.src = localStorage.customBG === undefined ? background : 
+    (JSON.parse(localStorage.customBG).size_of === true ? JSON.parse(localStorage.customBG).url : background);
+
+    function ChangeBG(src){
+        var img = new Image();
+        img.src = src;
+        img.onload = () => {
+            var bitmap = getBimap(img);
+            particles = push_image(bitmap, SETTINGS.particle_size, GRAP.width, GRAP.height);
+            clear_img_btm = prepare_to_render(bitmap);
+            clear_img = img;
+            if(src.length < 4000000){
+                localStorage.customBG = JSON.stringify({
+                    size_of: true,
+                    url: src,
+                });
+            }else{
+                localStorage.customBG = JSON.stringify({
+                    size_of: false,
+                });
+            }
+        }
     }
-    ClearBG();
 
     setInterval(()=>{
         if(SETTINGS.fps_show === true){
@@ -202,17 +263,9 @@ prepare_to_render = (bitmap) => {
     }
 
     clear_img.onload = () => {
-        if(inited){
-            var bitmap = getBimap(clear_img);
-            clear_img_btm = prepare_to_render(bitmap);
-            return;
-        }
-
         var bitmap = getBimap(clear_img);
         particles = push_image(bitmap, SETTINGS.particle_size, GRAP.width, GRAP.height);
         clear_img_btm = prepare_to_render(bitmap);
-        inited = true;
-
         draw();
     };
 
@@ -248,7 +301,23 @@ prepare_to_render = (bitmap) => {
             SETTINGS.particle_size = properties.particle_size != undefined ?!isNaN(parseInt(properties.particle_size.value)) ? parseInt(properties.particle_size.value) : SETTINGS.particle_size : SETTINGS.particle_size;
             SETTINGS.delta_wait = properties.fps_max != undefined ?!isNaN(parseInt(properties.fps_max.value)) ? 1000 / parseInt(properties.fps_max.value) : SETTINGS.fps_max : SETTINGS.fps_max;
             
-            particles = push_image(getBimap(clear_img), SETTINGS.particle_size, GRAP.width, GRAP.height);
+            console.log(properties.background);
+
+            if(properties.background !== undefined){
+                if(properties.background.value !== ""){
+                    GetB64FromFile(decodeURIComponent("file:///" + properties.background.value), res => {
+                        ChangeBG(res);
+                    }, warn => {
+                        alert("Mistake! I could not find the image in the given way, if you think that it is still there, write about it in the comments of the wallpaper, with a detailed description of the error.")
+                        ChangeBG(background);
+                    });
+                } else {
+                    ChangeBG(background);
+                }
+            } else {
+                if(properties.particle_size != undefined || properties.max_particles != undefined)
+                    particles = push_image(getBimap(clear_img), SETTINGS.particle_size, GRAP.width, GRAP.height);
+            }
         }
     }
 })()

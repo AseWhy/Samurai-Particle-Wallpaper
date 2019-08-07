@@ -1,5 +1,6 @@
 {
 	"contentrating" : "Everyone",
+	"description" : "Src: https://github.com/AseWhy/Samurai-Particle-Wallpaper/blob/master/js/main.js \r\n\r\n\r\nSettings translated for the following languages:\r\n[list]\r\n[*]Russian\r\n[*]English\r\n[*]Arab\r\n[*]French\r\n[*]Spanish\r\n[*]Chinese\r\n[/list]\r\n\r\nAttention! Machine translation, so there may be certain fails.\r\n\r\n[Update 0.2]\r\n\r\nNow you can set your image, as a background, to emit particles, it should be a separate picture on a white background.\r\n\r\n[P.S.]\r\n[url=https://drive.google.com/open?id=1NNS_ng7fYT8JmigbQqk46oz0X6mzA0Px]anyone too lazy to look for the right pictures)[/url]",
 	"file" : "index.html",
 	"general" : 
 	{
@@ -7,6 +8,7 @@
 		{
 			"ar-sa" : 
 			{
+				"ui_background" : "صورة الخلفية",
 				"ui_fps_show" : "Display FPS",
 				"ui_max_fps" : "تقييد الإطار",
 				"ui_max_particles" : "الحد الأقصى لعدد الجزيئات",
@@ -16,6 +18,7 @@
 			},
 			"en-us" : 
 			{
+				"ui_background" : "Background Image",
 				"ui_fps_show" : "Display FPS",
 				"ui_max_fps" : "Frame restriction",
 				"ui_max_particles" : "The maximum number of particles",
@@ -25,6 +28,7 @@
 			},
 			"es-es" : 
 			{
+				"ui_background" : "Imagen de fondo",
 				"ui_fps_show" : "Mostrar FPS",
 				"ui_max_fps" : "Restricción de trama",
 				"ui_max_particles" : "El número máximo de partículas",
@@ -34,6 +38,7 @@
 			},
 			"fr-fr" : 
 			{
+				"ui_background" : "Image de fond",
 				"ui_fps_show" : "Afficher le FPS",
 				"ui_max_fps" : "Restriction de trame",
 				"ui_max_particles" : "Le nombre maximum de particules",
@@ -43,6 +48,7 @@
 			},
 			"ru-ru" : 
 			{
+				"ui_background" : "Изображение заднего фона",
 				"ui_fps_show" : "Отображать ФПС",
 				"ui_max_fps" : "Ограничение кадров",
 				"ui_max_particles" : "Маскимальное количесво частиц",
@@ -52,6 +58,7 @@
 			},
 			"sh-chs" : 
 			{
+				"ui_background" : "背景图片",
 				"ui_fps_show" : "显示FPS",
 				"ui_max_fps" : "帧限制",
 				"ui_max_particles" : "最大粒子数",
@@ -62,6 +69,11 @@
 		},
 		"properties" : 
 		{
+			"background" : 
+			{
+				"text" : "ui_background",
+				"type" : "file"
+			},
 			"fps_max" : 
 			{
 				"text" : "ui_max_fps",
