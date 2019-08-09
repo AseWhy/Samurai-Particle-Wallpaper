@@ -170,7 +170,8 @@ GetB64FromFile = (url, res, warn) => {
         delta_width = 0,
         fps = "",
         frames = 0,
-        delta = 0;
+        delta = 0,
+        iterations = 0;
 
     
     clear_img.src = localStorage.customBG === undefined ? background : 
@@ -213,7 +214,7 @@ GetB64FromFile = (url, res, warn) => {
         }
 
         CONT.clearRect(0, 0, GRAP.width, GRAP.height);
-        CONT.fillStyle = "#fff"
+        CONT.fillStyle = "#ffffff"
         CONT.fillRect(0, 0, GRAP.width, GRAP.height)
 
         date = formate_date(new Date());
@@ -248,12 +249,33 @@ GetB64FromFile = (url, res, warn) => {
         }
 
         if(SETTINGS.draw_audio === true){
-            delta_width = (GRAP.width / 2) / (rects) - 2;
-            delta = 0;
-            CONT.fillStyle = "#000"
-            for(var i = 0;i < rects;i++){
-                CONT.fillRect(GRAP.width * 0.25 + delta, GRAP.height * 0.5 - (draw_buffer[i] / 2), delta_width, draw_buffer[i])
-                delta += delta_width + 2;
+            if(SETTINGS.avt === 0){
+                delta_width = (GRAP.width / 2) / (rects) - 2;
+                delta = 0;
+                CONT.fillStyle = "#000000";
+                for(var i = 0;i < rects;i++){
+                    CONT.fillRect(GRAP.width * 0.25 + delta, GRAP.height * 0.5 - (draw_buffer[i] / 2), delta_width, draw_buffer[i])
+                    delta += delta_width + 2;
+                }
+            }else if(SETTINGS.avt === 1){
+                delta_width = 360 / rects;
+                delta = 0;
+                CONT.strokeStyle = "#000000";
+                CONT.beginPath();
+                //CONT.moveTo((Math.cos(0) * (draw_buffer[0] + SETTINGS.avt_radius)) + (GRAP.width / 2),
+                            //(Math.sin(0) * (draw_buffer[0] + SETTINGS.avt_radius)) + (GRAP.height / 2));
+                for(var i = 1;i < rects;i++){
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.8) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.width / 2),
+                                (Math.sin(delta_width * (i - 0.8) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.height / 2));
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.8) * (Math.PI / 180)) * (draw_buffer[i] + SETTINGS.avt_radius)) + (GRAP.width / 2),
+                                (Math.sin(delta_width * (i - 0.8) * (Math.PI / 180)) * (draw_buffer[i] + SETTINGS.avt_radius)) + (GRAP.height / 2));
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.2) * (Math.PI / 180)) * (draw_buffer[i] + SETTINGS.avt_radius)) + (GRAP.width / 2),
+                                (Math.sin(delta_width * (i - 0.2) * (Math.PI / 180)) * (draw_buffer[i] + SETTINGS.avt_radius)) + (GRAP.height / 2));
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.2) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.width / 2),
+                                (Math.sin(delta_width * (i - 0.2) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.height / 2));
+                }
+                CONT.closePath();
+                CONT.stroke();
             }
         }
 
@@ -267,27 +289,34 @@ GetB64FromFile = (url, res, warn) => {
         particles = push_image(bitmap, SETTINGS.particle_size, GRAP.width, GRAP.height);
         clear_img_btm = prepare_to_render(bitmap);
         draw();
+        document.body.style.filter = "none";
     };
 
-
+    
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(data => {
-        if(SETTINGS.draw_audio === true){
+        if(SETTINGS.draw_audio === true) {
             for(var i = 0;i < rects;i++){
                 draw_buffer[i] = i < Math.round(rects / 2) ? 
                 (data[Math.round((i / rects) * 128)] / 1.5) * (GRAP.height * 0.5) :
                 draw_buffer[(rects - i - 1)];
 
                 if(draw_buffer[i] < last_buffer[i]){
-                    draw_buffer[i] = last_buffer[i]*0.85
-                }else if(last_buffer[i] !== undefined && last_buffer[i] !== 0) {
-                    draw_buffer[i] = last_buffer[i]*1.15
+                    draw_buffer[i] = last_buffer[i] - GRAP.height *  0.005;
+                }else if(draw_buffer[i] === last_buffer[i]){
+                    draw_buffer[i] = 0;
+                }else if(last_buffer[i] !== undefined){
+                    draw_buffer[i] = last_buffer[i] + GRAP.height *  0.005;
                 }
 
-                if(Math.round(draw_buffer[i]) === 0)
+                if(Math.round(draw_buffer[i]) <= 0)
                         draw_buffer[i] = 0
+
+                if(draw_buffer[i] >= GRAP.height * 0.5)
+                    draw_buffer[i] = GRAP.height * 0.5;
 
                 last_buffer[i] = draw_buffer[i];
             }
+            iterations = 0;
         }
     });
 
@@ -299,7 +328,10 @@ GetB64FromFile = (url, res, warn) => {
             SETTINGS.draw_audio = properties.show_audio != undefined ? properties.show_audio.value : SETTINGS.draw_audio;
             SETTINGS.max_particles = properties.max_particles != undefined ?!isNaN(parseInt(properties.max_particles.value)) ? parseInt(properties.max_particles.value) : SETTINGS.max_particles : SETTINGS.max_particles;
             SETTINGS.particle_size = properties.particle_size != undefined ?!isNaN(parseInt(properties.particle_size.value)) ? parseInt(properties.particle_size.value) : SETTINGS.particle_size : SETTINGS.particle_size;
-            SETTINGS.delta_wait = properties.fps_max != undefined ?!isNaN(parseInt(properties.fps_max.value)) ? 1000 / parseInt(properties.fps_max.value) : SETTINGS.fps_max : SETTINGS.fps_max;
+            SETTINGS.avt = properties.audio_type != undefined ?
+                !isNaN(parseInt(properties.audio_type.value)) ? parseInt(properties.audio_type.value) - 1 : SETTINGS.avt : SETTINGS.avt;
+            SETTINGS.avt_radius = properties.innerRadius != undefined ?
+                !isNaN(parseInt(properties.innerRadius.value)) ? parseInt(properties.innerRadius.value) : SETTINGS.avt_radius : SETTINGS.avt_radius;
             
             console.log(properties.background);
 

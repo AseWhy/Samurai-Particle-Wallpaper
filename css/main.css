@@ -6,4 +6,6 @@
 body {
     background-color: black;
     margin: 0px;
+    filter: blur(4px);
+    transition: 5s;
 }

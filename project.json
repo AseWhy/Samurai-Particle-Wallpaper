@@ -8,8 +8,12 @@
 		{
 			"ar-sa" : 
 			{
+				"ui_audio_type_1" : "خط",
+				"ui_audio_type_2" : "دائرة",
+				"ui_audio_type_v" : "نوع التصور الصوتي",
 				"ui_background" : "صورة الخلفية",
 				"ui_fps_show" : "Display FPS",
+				"ui_inner_radius" : "نصف القطر الداخلي",
 				"ui_max_fps" : "تقييد الإطار",
 				"ui_max_particles" : "الحد الأقصى لعدد الجزيئات",
 				"ui_particle_size" : "حجم الجسيمات",
@@ -18,16 +22,24 @@
 			},
 			"en-us" : 
 			{
-				"ui_background" : "Background Image",
-				"ui_fps_show" : "Display FPS",
-				"ui_max_fps" : "Frame restriction",
-				"ui_max_particles" : "The maximum number of particles",
-				"ui_particle_size" : "Particle size",
-				"ui_show_audio" : "Audio visualization",
-				"ui_td_show" : "Display date and time"
+				"ui_audio_type_1": "Line",
+				"ui_audio_type_2": "Circumference",
+				"ui_audio_type_v": "Visualization type audio",
+				"ui_background": "Background image",
+				"ui_fps_show": "Display FPS",
+				"ui_inner_radius": "Inner radius",
+				"ui_max_fps": "Frame limitation",
+				"ui_max_particles": "The maximum number of particles",
+				"ui_particle_size": "Particle size",
+				"ui_show_audio": "Audio visualization",
+				"ui_td_show": "Display date and time"
 			},
 			"es-es" : 
 			{
+				"ui_audio_type_1" : "Línea",
+				"ui_audio_type_2" : "Circunferencia",
+				"ui_audio_type_v" : "Tipo de visualización de audio",
+				"ui_inner_radius" : "Radio interior",
 				"ui_background" : "Imagen de fondo",
 				"ui_fps_show" : "Mostrar FPS",
 				"ui_max_fps" : "Restricción de trama",
@@ -38,6 +50,10 @@
 			},
 			"fr-fr" : 
 			{
+				"ui_audio_type_1" : "Ligne",
+				"ui_audio_type_2" : "Circonférence",
+				"ui_audio_type_v" : "Type de visualisation Audio",
+				"ui_inner_radius" : "Rayon intérieur",
 				"ui_background" : "Image de fond",
 				"ui_fps_show" : "Afficher le FPS",
 				"ui_max_fps" : "Restriction de trame",
@@ -48,8 +64,12 @@
 			},
 			"ru-ru" : 
 			{
+				"ui_audio_type_1" : "Линия",
+				"ui_audio_type_2" : "Окружность",
+				"ui_audio_type_v" : "Тип визуализации аудио",
 				"ui_background" : "Изображение заднего фона",
 				"ui_fps_show" : "Отображать ФПС",
+				"ui_inner_radius" : "Внутренний радиус",
 				"ui_max_fps" : "Ограничение кадров",
 				"ui_max_particles" : "Маскимальное количесво частиц",
 				"ui_particle_size" : "Размер частиц",
@@ -58,6 +78,10 @@
 			},
 			"sh-chs" : 
 			{
+				"ui_audio_type_1" : "线",
+				"ui_audio_type_2" : "圈",
+				"ui_audio_type_v" : "音频可视化类型",
+				"ui_inner_radius" : "内半径",
 				"ui_background" : "背景图片",
 				"ui_fps_show" : "显示FPS",
 				"ui_max_fps" : "帧限制",
@@ -69,31 +93,63 @@
 		},
 		"properties" : 
 		{
+			"audio_type" : 
+			{
+				"condition" : "show_audio.value == true",
+				"options" : 
+				[
+					{
+						"label" : "ui_audio_type_1",
+						"value" : 1
+					},
+					{
+						"label" : "ui_audio_type_2",
+						"value" : 2
+					}
+				],
+				"order" : 106,
+				"text" : "ui_audio_type_v",
+				"type" : "combo",
+				"value" : 1
+			},
 			"background" : 
 			{
+				"order" : 100,
 				"text" : "ui_background",
 				"type" : "file"
 			},
 			"fps_max" : 
 			{
+				"order" : 102,
 				"text" : "ui_max_fps",
 				"type" : "textinput",
 				"value" : 30
 			},
 			"fps_show" : 
 			{
+				"order" : 101,
 				"text" : "ui_fps_show",
 				"type" : "bool",
 				"value" : false
 			},
+			"innerRadius" : 
+			{
+				"condition" : "audio_type.value == 2",
+				"order" : 107,
+				"text" : "ui_inner_radius",
+				"type" : "textinput",
+				"value" : "150"
+			},
 			"max_particles" : 
 			{
+				"order" : 103,
 				"text" : "ui_max_particles",
 				"type" : "textinput",
 				"value" : 300
 			},
 			"particle_size" : 
 			{
+				"order" : 104,
 				"text" : "ui_particle_size",
 				"type" : "textinput",
 				"value" : 2
@@ -107,12 +163,14 @@
 			},
 			"show_audio" : 
 			{
+				"order" : 105,
 				"text" : "ui_show_audio",
 				"type" : "bool",
 				"value" : true
 			},
 			"td_show" : 
 			{
+				"order" : 108,
 				"text" : "ui_td_show",
 				"type" : "bool",
 				"value" : true

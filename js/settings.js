@@ -23,6 +23,10 @@ SETTINGS = {
     draw_audio: true,
     //r, g, b - white walue
     white_border: 230,
+    //Audio visualization type
+    avt: 0,
+    //
+    avt_radius: 150,
     //Style settings of fps display
     fps: {
         color: "#000000",
