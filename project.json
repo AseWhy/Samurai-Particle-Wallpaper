@@ -1,6 +1,6 @@
 {
 	"contentrating" : "Everyone",
-	"description" : "Src: https://github.com/AseWhy/Samurai-Particle-Wallpaper/blob/master/js/main.js \r\n\r\n\r\nSettings translated for the following languages:\r\n[list]\r\n[*]Russian\r\n[*]English\r\n[*]Arab\r\n[*]French\r\n[*]Spanish\r\n[*]Chinese\r\n[/list]\r\n\r\nAttention! Machine translation, so there may be certain fails.\r\n\r\n[Update 0.2]\r\n\r\nNow you can set your image, as a background, to emit particles, it should be a separate picture on a white background.\r\n\r\n[P.S.]\r\n[url=https://drive.google.com/open?id=1NNS_ng7fYT8JmigbQqk46oz0X6mzA0Px]anyone too lazy to look for the right pictures)[/url]",
+	"description" : "Src: https://github.com/AseWhy/Samurai-Particle-Wallpaper/blob/master/js/main.js \r\n\r\n\r\nSettings translated for the following languages:\r\n[list]\r\n[*]Russian\r\n[*]English\r\n[*]Arab\r\n[*]French\r\n[*]Spanish\r\n[*]Chinese\r\n[/list]\r\n\r\nAttention! Machine translation, so there may be certain fails.\r\n\r\n[Update 0.2]\r\n\r\nNow you can set your image, as a background, to emit particles, it should be a separate picture on a white background.\r\n\r\n[P.S.]\r\n[url=https://drive.google.com/open?id=1NNS_ng7fYT8JmigbQqk46oz0X6mzA0Px]anyone too lazy to look for the right pictures)[/url]\r\n\r\nPlay with the settings, I tried!)",
 	"file" : "index.html",
 	"general" : 
 	{
@@ -8,13 +8,24 @@
 		{
 			"ar-sa" : 
 			{
+				"ui_audio_fill" : "كتلة ملء",
+				"ui_audio_smoothing" : "تجانس الصوت",
+				"ui_audio_smoothing_1" : "سهم التوجيه",
+				"ui_audio_smoothing_2" : "فالعمليات الحسابية",
+				"ui_audio_smoothing_3" : "لا تجانس",
+				"ui_audio_smoothing_power" : "تجانس القوة",
+				"ui_audio_step_x" : "خطوة X التصور",
+				"ui_audio_step_y" : "خطوة التصور Y",
 				"ui_audio_type_1" : "خط",
-				"ui_audio_type_2" : "دائرة",
+				"ui_audio_type_2" : "الدائرة 1",
+				"ui_audio_type_3" : "الدائرة 2",
 				"ui_audio_type_v" : "نوع التصور الصوتي",
+				"ui_audio_w_color" : "تجسيد اللون",
+				"ui_audio_w_opacity" : "جعل العتامة",
 				"ui_background" : "صورة الخلفية",
-				"ui_fps_show" : "Display FPS",
+				"ui_fps_show" : "عرض FPS",
 				"ui_inner_radius" : "نصف القطر الداخلي",
-				"ui_max_fps" : "تقييد الإطار",
+				"ui_max_fps" : "الحد من الإطار",
 				"ui_max_particles" : "الحد الأقصى لعدد الجزيئات",
 				"ui_particle_size" : "حجم الجسيمات",
 				"ui_show_audio" : "التصور الصوتي",
@@ -22,51 +33,95 @@
 			},
 			"en-us" : 
 			{
-				"ui_audio_type_1": "Line",
-				"ui_audio_type_2": "Circumference",
-				"ui_audio_type_v": "Visualization type audio",
-				"ui_background": "Background image",
-				"ui_fps_show": "Display FPS",
-				"ui_inner_radius": "Inner radius",
-				"ui_max_fps": "Frame limitation",
-				"ui_max_particles": "The maximum number of particles",
-				"ui_particle_size": "Particle size",
-				"ui_show_audio": "Audio visualization",
-				"ui_td_show": "Display date and time"
+				"ui_audio_fill" : "Fill blocks",
+				"ui_audio_smoothing" : "audio Smoothing",
+				"ui_audio_smoothing_1" : "Vector",
+				"ui_audio_smoothing_2" : "Arithmetic",
+				"ui_audio_smoothing_3" : "Without smoothing",
+				"ui_audio_smoothing_power" : "smoothing Power",
+				"ui_audio_step_x" : "the Step of visualization on x",
+				"ui_audio_step_y" : "the Step of imaging at the y",
+				"ui_audio_type_1" : "Line",
+				"ui_audio_type_2" : "Circle 1",
+				"ui_audio_type_3" : "Circle 2",
+				"ui_audio_type_v" : "audio rendering Type",
+				"ui_audio_w_color" : "render Color",
+				"ui_audio_w_opacity" : "render Opacity",
+				"ui_background" : "background Image",
+				"ui_fps_show" : "Display FPS",
+				"ui_inner_radius" : "Inner radius",
+				"ui_max_fps" : "frame Limit",
+				"ui_max_particles" : "Maximal number of particles",
+				"ui_particle_size" : "particle Size",
+				"ui_show_audio" : "audio Visualization",
+				"ui_td_show" : "Display date and time"
 			},
 			"es-es" : 
 			{
+				"ui_audio_fill" : "Relleno de bloques",
+				"ui_audio_smoothing" : "Suavizado de audio",
+				"ui_audio_smoothing_1" : "Vectorial",
+				"ui_audio_smoothing_2" : "Arefmética",
+				"ui_audio_smoothing_3" : "Sin suavización",
+				"ui_audio_smoothing_power" : "Fuerza del suavización",
+				"ui_audio_step_x" : "Paso de renderización por x",
+				"ui_audio_step_y" : "Paso de renderización por y",
 				"ui_audio_type_1" : "Línea",
-				"ui_audio_type_2" : "Circunferencia",
-				"ui_audio_type_v" : "Tipo de visualización de audio",
-				"ui_inner_radius" : "Radio interior",
-				"ui_background" : "Imagen de fondo",
+				"ui_audio_type_2" : "Circunferencia 1",
+				"ui_audio_type_3" : "Circunferencia 2",
+				"ui_audio_type_v" : "Tipo visualización de audio",
+				"ui_audio_w_color" : "Color de visualización",
+				"ui_audio_w_opacity" : "Opacidad de visualización",
+				"ui_background" : "Imagen de fondo del atras",
 				"ui_fps_show" : "Mostrar FPS",
-				"ui_max_fps" : "Restricción de trama",
-				"ui_max_particles" : "El número máximo de partículas",
-				"ui_particle_size" : "Tamaño de partícula",
-				"ui_show_audio" : "Visualización de audio",
-				"ui_td_show" : "Mostrar fecha y hora"
+				"ui_inner_radius" : "Radio interno",
+				"ui_max_fps" : "Límite de fotogramas",
+				"ui_max_particles" : "Maximó del particulas",
+				"ui_particle_size" : "Tamaño del particulas",
+				"ui_show_audio" : "Visualización del particulas",
+				"ui_td_show" : "Mostrar la data y el tiempo"
 			},
 			"fr-fr" : 
 			{
-				"ui_audio_type_1" : "Ligne",
-				"ui_audio_type_2" : "Circonférence",
-				"ui_audio_type_v" : "Type de visualisation Audio",
-				"ui_inner_radius" : "Rayon intérieur",
-				"ui_background" : "Image de fond",
-				"ui_fps_show" : "Afficher le FPS",
-				"ui_max_fps" : "Restriction de trame",
-				"ui_max_particles" : "Le nombre maximum de particules",
-				"ui_particle_size" : "Taille de particule",
-				"ui_show_audio" : "Visualisation audio",
+				"ui_audio_fill" : "Remplissage des blocs",
+				"ui_audio_smoothing" : "Lissage audio",
+				"ui_audio_smoothing_1" : "Vectorielle",
+				"ui_audio_smoothing_2" : "Arithmétique",
+				"ui_audio_smoothing_3" : "Sans lissage",
+				"ui_audio_smoothing_power" : "la Force de lissage",
+				"ui_audio_step_x" : "l'Étape d'imagerie x",
+				"ui_audio_step_y" : "l'Étape de la visualisation de y",
+				"ui_audio_type_1" : "Gamme",
+				"ui_audio_type_2" : "le Cercle 1",
+				"ui_audio_type_3" : "le Cercle 2",
+				"ui_audio_type_v" : "Type de rendu audio",
+				"ui_audio_w_color" : "Couleur de rendu",
+				"ui_audio_w_opacity" : "l'Opacité de la visualisation",
+				"ui_background" : "Image d'arrière-plan",
+				"ui_fps_show" : "Afficher les FPS",
+				"ui_inner_radius" : "rayon Interne",
+				"ui_max_fps" : "la Limitation de formation",
+				"ui_max_particles" : "nombre Maximal de particules",
+				"ui_particle_size" : "la Taille des particules",
+				"ui_show_audio" : "le Rendu audio",
 				"ui_td_show" : "Afficher la date et l'heure"
 			},
 			"ru-ru" : 
 			{
+				"ui_audio_fill" : "Заливка блоков",
+				"ui_audio_smoothing" : "Cглаживание аудио",
+				"ui_audio_smoothing_1" : "Векторное",
+				"ui_audio_smoothing_2" : "Арифметическое",
+				"ui_audio_smoothing_3" : "Без сглаживания",
+				"ui_audio_smoothing_power" : "Сила сглаживания",
+				"ui_audio_step_x" : "Шаг визуализации по x",
+				"ui_audio_step_y" : "Шаг визуализации по y",
 				"ui_audio_type_1" : "Линия",
-				"ui_audio_type_2" : "Окружность",
+				"ui_audio_type_2" : "Окружность 1",
+				"ui_audio_type_3" : "Окружность 2",
 				"ui_audio_type_v" : "Тип визуализации аудио",
+				"ui_audio_w_color" : "Цвет визуализации",
+				"ui_audio_w_opacity" : "Непрозрачность визуализации",
 				"ui_background" : "Изображение заднего фона",
 				"ui_fps_show" : "Отображать ФПС",
 				"ui_inner_radius" : "Внутренний радиус",
@@ -78,12 +133,23 @@
 			},
 			"sh-chs" : 
 			{
-				"ui_audio_type_1" : "线",
-				"ui_audio_type_2" : "圈",
+				"ui_audio_fill" : "块填充",
+				"ui_audio_smoothing" : "音频平滑",
+				"ui_audio_smoothing_1" : "矢量",
+				"ui_audio_smoothing_2" : "算术的",
+				"ui_audio_smoothing_3" : "没有平滑",
+				"ui_audio_smoothing_power" : "平滑力量",
+				"ui_audio_step_x" : "x可视化步骤",
+				"ui_audio_step_y" : "可视化步骤为y",
+				"ui_audio_type_1" : "行",
+				"ui_audio_type_2" : "圈1",
+				"ui_audio_type_3" : "圈2",
 				"ui_audio_type_v" : "音频可视化类型",
-				"ui_inner_radius" : "内半径",
+				"ui_audio_w_color" : "渲染颜色",
+				"ui_audio_w_opacity" : "可视化的不透明度",
 				"ui_background" : "背景图片",
 				"ui_fps_show" : "显示FPS",
+				"ui_inner_radius" : "内半径",
 				"ui_max_fps" : "帧限制",
 				"ui_max_particles" : "最大粒子数",
 				"ui_particle_size" : "粒径",
@@ -93,6 +159,64 @@
 		},
 		"properties" : 
 		{
+			"audio_fill" : 
+			{
+				"condition" : "show_audio.value == true",
+				"order" : 114,
+				"text" : "ui_audio_fill",
+				"type" : "bool",
+				"value" : true
+			},
+			"audio_smoothing" : 
+			{
+				"condition" : "show_audio.value == true",
+				"options" : 
+				[
+					{
+						"label" : "ui_audio_smoothing_1",
+						"value" : 1
+					},
+					{
+						"label" : "ui_audio_smoothing_2",
+						"value" : 2
+					},
+					{
+						"label" : "ui_audio_smoothing_3",
+						"value" : 3
+					}
+				],
+				"order" : 109,
+				"text" : "ui_audio_smoothing",
+				"type" : "combo",
+				"value" : 2
+			},
+			"audio_smoothing_power" : 
+			{
+				"condition" : "audio_smoothing.value == 2 && show_audio.value == true",
+				"editable" : true,
+				"max" : 100,
+				"min" : 0,
+				"order" : 110,
+				"text" : "ui_audio_smoothing_power",
+				"type" : "slider",
+				"value" : 10
+			},
+			"audio_step_x" : 
+			{
+				"condition" : "show_audio.value == true",
+				"order" : 112,
+				"text" : "ui_audio_step_x",
+				"type" : "textinput",
+				"value" : 0
+			},
+			"audio_step_y" : 
+			{
+				"condition" : "show_audio.value == true",
+				"order" : 111,
+				"text" : "ui_audio_step_y",
+				"type" : "textinput",
+				"value" : 0
+			},
 			"audio_type" : 
 			{
 				"condition" : "show_audio.value == true",
@@ -105,12 +229,35 @@
 					{
 						"label" : "ui_audio_type_2",
 						"value" : 2
+					},
+					{
+						"label" : "ui_audio_type_3",
+						"value" : 3
 					}
 				],
 				"order" : 106,
 				"text" : "ui_audio_type_v",
 				"type" : "combo",
 				"value" : 1
+			},
+			"audio_w_color" : 
+			{
+				"condition" : "show_audio.value == true",
+				"order" : 107,
+				"text" : "ui_audio_w_color",
+				"type" : "color",
+				"value" : "0 0 0"
+			},
+			"audio_w_opacity" : 
+			{
+				"condition" : "show_audio.value == true",
+				"editable" : true,
+				"max" : 255,
+				"min" : 0,
+				"order" : 108,
+				"text" : "ui_audio_w_opacity",
+				"type" : "slider",
+				"value" : 255
 			},
 			"background" : 
 			{
@@ -134,8 +281,8 @@
 			},
 			"innerRadius" : 
 			{
-				"condition" : "audio_type.value == 2",
-				"order" : 107,
+				"condition" : "audio_type.value == 2 || audio_type.value == 3",
+				"order" : 113,
 				"text" : "ui_inner_radius",
 				"type" : "textinput",
 				"value" : "150"
@@ -170,7 +317,7 @@
 			},
 			"td_show" : 
 			{
-				"order" : 108,
+				"order" : 115,
 				"text" : "ui_td_show",
 				"type" : "bool",
 				"value" : true

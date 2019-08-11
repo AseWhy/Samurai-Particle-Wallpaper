@@ -24,9 +24,20 @@ SETTINGS = {
     //r, g, b - white walue
     white_border: 230,
     //Audio visualization type
-    avt: 0,
+    avt: 2,
+    //
+    avt_center: {
+        x: 0,
+        y: 0
+    },
+    //
+    avt_smoothing: 1,
+    //
+    avt_smoothing_power: 10,
     //
     avt_radius: 150,
+    //
+    avt_fill: true,
     //Style settings of fps display
     fps: {
         color: "#000000",
@@ -44,5 +55,14 @@ SETTINGS = {
         color: "#000000",
         font_size: 34,
         font_family: "Linetoline"
+    },
+    audio_devade: {
+        color: "#0000000f",
+        pract: {
+            r: 0,
+            g: 0,
+            b: 0
+        },
+        opacity: 255
     }
   }

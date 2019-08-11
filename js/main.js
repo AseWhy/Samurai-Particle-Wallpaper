@@ -154,7 +154,29 @@ GetB64FromFile = (url, res, warn) => {
     };
     request.onerror = warn;
     request.send();
-};
+},
+/**
+ * Gets an array with r g b values ​​and returns 
+ * a formatted string for rendering
+ * 
+ * @param rgb - is array[3] = [r, g, b]
+ * @return rgba(r, g, b, a)
+ */
+get_color = (rgb) => {
+    SETTINGS.audio_devade.pract = {
+        r: rgb[0],
+        g: rgb[1],
+        b: rgb[2]
+    };
+    rgb = [
+        parseFloat(rgb[0]) * 255,
+        parseFloat(rgb[1]) * 255,
+        parseFloat(rgb[2]) * 255
+    ];
+    
+    return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${(SETTINGS.audio_devade.opacity / 255)})`;
+},
+average = arr => arr.reduce((sume, el) => sume + el, 0) / arr.length;
 
 
 (() => {
@@ -166,14 +188,17 @@ GetB64FromFile = (url, res, warn) => {
         bg_bitmap = null,
         draw_buffer = [],
         last_buffer = [],
+        sm_buffer = [],
         rects = 80,
         delta_width = 0,
         fps = "",
         frames = 0,
         delta = 0,
+        max_value = 0,
         iterations = 0;
 
-    
+    const MaxAudioHeight = GRAP.height * 0.3;
+
     clear_img.src = localStorage.customBG === undefined ? background : 
     (JSON.parse(localStorage.customBG).size_of === true ? JSON.parse(localStorage.customBG).url : background);
 
@@ -249,33 +274,54 @@ GetB64FromFile = (url, res, warn) => {
         }
 
         if(SETTINGS.draw_audio === true){
-            if(SETTINGS.avt === 0){
+            switch(SETTINGS.avt){
+            case 0:
                 delta_width = (GRAP.width / 2) / (rects) - 2;
                 delta = 0;
-                CONT.fillStyle = "#000000";
+                CONT[SETTINGS.avt_fill ? "fillStyle" : "strokeStyle"] = SETTINGS.audio_devade.color;
                 for(var i = 0;i < rects;i++){
-                    CONT.fillRect(GRAP.width * 0.25 + delta, GRAP.height * 0.5 - (draw_buffer[i] / 2), delta_width, draw_buffer[i])
+                    SETTINGS.avt_fill ? 
+                        CONT.fillRect(GRAP.width * 0.25 + delta + SETTINGS.avt_center.x, GRAP.height * 0.5 - (last_buffer[i] / 2) + SETTINGS.avt_center.y, delta_width, draw_buffer[i]) :
+                        CONT.strokeRect(GRAP.width * 0.25 + delta + SETTINGS.avt_center.x, GRAP.height * 0.5 - (last_buffer[i] / 2) + SETTINGS.avt_center.y, delta_width, draw_buffer[i])
                     delta += delta_width + 2;
                 }
-            }else if(SETTINGS.avt === 1){
+                break;
+            case 1:
                 delta_width = 360 / rects;
                 delta = 0;
-                CONT.strokeStyle = "#000000";
+                CONT[SETTINGS.avt_fill ? "fillStyle" : "strokeStyle"] = SETTINGS.audio_devade.color;
                 CONT.beginPath();
-                //CONT.moveTo((Math.cos(0) * (draw_buffer[0] + SETTINGS.avt_radius)) + (GRAP.width / 2),
-                            //(Math.sin(0) * (draw_buffer[0] + SETTINGS.avt_radius)) + (GRAP.height / 2));
-                for(var i = 1;i < rects;i++){
-                    CONT.lineTo((Math.cos(delta_width * (i - 0.8) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.width / 2),
-                                (Math.sin(delta_width * (i - 0.8) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.height / 2));
-                    CONT.lineTo((Math.cos(delta_width * (i - 0.8) * (Math.PI / 180)) * (draw_buffer[i] + SETTINGS.avt_radius)) + (GRAP.width / 2),
-                                (Math.sin(delta_width * (i - 0.8) * (Math.PI / 180)) * (draw_buffer[i] + SETTINGS.avt_radius)) + (GRAP.height / 2));
-                    CONT.lineTo((Math.cos(delta_width * (i - 0.2) * (Math.PI / 180)) * (draw_buffer[i] + SETTINGS.avt_radius)) + (GRAP.width / 2),
-                                (Math.sin(delta_width * (i - 0.2) * (Math.PI / 180)) * (draw_buffer[i] + SETTINGS.avt_radius)) + (GRAP.height / 2));
-                    CONT.lineTo((Math.cos(delta_width * (i - 0.2) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.width / 2),
-                                (Math.sin(delta_width * (i - 0.2) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.height / 2));
+                for(var i = 0;i < rects;i++){
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.8) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.width / 2) + SETTINGS.avt_center.x,
+                                (Math.sin(delta_width * (i - 0.8) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.height / 2) + SETTINGS.avt_center.y);
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.8) * (Math.PI / 180)) * (last_buffer[i] + SETTINGS.avt_radius)) + (GRAP.width / 2) + SETTINGS.avt_center.x,
+                                (Math.sin(delta_width * (i - 0.8) * (Math.PI / 180)) * (last_buffer[i] + SETTINGS.avt_radius)) + (GRAP.height / 2) + SETTINGS.avt_center.y);
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.2) * (Math.PI / 180)) * (last_buffer[i] + SETTINGS.avt_radius)) + (GRAP.width / 2) + SETTINGS.avt_center.x,
+                                (Math.sin(delta_width * (i - 0.2) * (Math.PI / 180)) * (last_buffer[i] + SETTINGS.avt_radius)) + (GRAP.height / 2) + SETTINGS.avt_center.y);
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.2) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.width / 2) + SETTINGS.avt_center.x,
+                                (Math.sin(delta_width * (i - 0.2) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.height / 2) + SETTINGS.avt_center.y);
                 }
                 CONT.closePath();
-                CONT.stroke();
+                SETTINGS.avt_fill ? CONT.fill() : CONT.stroke();
+                break;
+            case 2:
+                delta_width = 360 / rects;
+                delta = 0;
+                CONT[SETTINGS.avt_fill ? "fillStyle" : "strokeStyle"] = SETTINGS.audio_devade.color;
+                for(var i = 0;i < rects;i++){
+                    CONT.beginPath();
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.8) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.width / 2) + SETTINGS.avt_center.x,
+                                (Math.sin(delta_width * (i - 0.8) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.height / 2) + SETTINGS.avt_center.y);
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.8) * (Math.PI / 180)) * (last_buffer[i] + SETTINGS.avt_radius)) + (GRAP.width / 2) + SETTINGS.avt_center.x,
+                                (Math.sin(delta_width * (i - 0.8) * (Math.PI / 180)) * (last_buffer[i] + SETTINGS.avt_radius)) + (GRAP.height / 2) + SETTINGS.avt_center.y);
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.2) * (Math.PI / 180)) * (last_buffer[i] + SETTINGS.avt_radius)) + (GRAP.width / 2) + SETTINGS.avt_center.x,
+                                (Math.sin(delta_width * (i - 0.2) * (Math.PI / 180)) * (last_buffer[i] + SETTINGS.avt_radius)) + (GRAP.height / 2) + SETTINGS.avt_center.y);
+                    CONT.lineTo((Math.cos(delta_width * (i - 0.2) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.width / 2) + SETTINGS.avt_center.x,
+                                (Math.sin(delta_width * (i - 0.2) * (Math.PI / 180)) * (SETTINGS.avt_radius)) + (GRAP.height / 2) + SETTINGS.avt_center.y);
+                    CONT.closePath();
+                    SETTINGS.avt_fill ? CONT.fill() : CONT.stroke();
+                }
+                break;
             }
         }
 
@@ -292,27 +338,55 @@ GetB64FromFile = (url, res, warn) => {
         document.body.style.filter = "none";
     };
 
-    
     window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(data => {
         if(SETTINGS.draw_audio === true) {
+            max_value = 0;
+            for(var i = 0;i < data.length;i++){
+                if(data[i] > max_value)
+                    max_value = data[i];
+            }
+            
+            //Normalize
             for(var i = 0;i < rects;i++){
                 draw_buffer[i] = i < Math.round(rects / 2) ? 
-                (data[Math.round((i / rects) * 128)] / 1.5) * (GRAP.height * 0.5) :
+                (data[Math.round((i / rects) * 128)] / max_value) * (MaxAudioHeight) :
                 draw_buffer[(rects - i - 1)];
 
-                if(draw_buffer[i] < last_buffer[i]){
-                    draw_buffer[i] = last_buffer[i] - GRAP.height *  0.005;
-                }else if(draw_buffer[i] === last_buffer[i]){
+                if(SETTINGS.avt_smoothing === 0){
+                    if(draw_buffer[i] < last_buffer[i] || max_value == 0){
+                        draw_buffer[i] = last_buffer[i] - MaxAudioHeight*0.01;
+                    }else if(draw_buffer[i] === last_buffer[i]){
+                        continue;
+                    }else if(last_buffer[i] !== undefined){
+                        draw_buffer[i] = last_buffer[i] + MaxAudioHeight*0.01;
+                    }
+                }else if(SETTINGS.avt_smoothing === 1){
+                    if(isNaN(draw_buffer[i]))
+                        draw_buffer[i] = 0;
+
+                    if(sm_buffer[i] == undefined)
+                        sm_buffer[i] = [];
+
+                    if(sm_buffer[i].length < SETTINGS.avt_smoothing_power){
+                        sm_buffer[i].push(draw_buffer[i]);
+                    }else if(sm_buffer[i].length > SETTINGS.avt_smoothing_power){
+                        sm_buffer[i].splice(0, sm_buffer[i].length - SETTINGS.avt_smoothing_power + 1);
+                        sm_buffer[i].push(draw_buffer[i]);
+                    }else{
+                        sm_buffer[i].splice(0, 1);
+                        sm_buffer[i].push(draw_buffer[i]);
+                    }
+
+                    draw_buffer[i] = average(sm_buffer[i]);
+                }else if(max_value == 0)
                     draw_buffer[i] = 0;
-                }else if(last_buffer[i] !== undefined){
-                    draw_buffer[i] = last_buffer[i] + GRAP.height *  0.005;
-                }
 
                 if(Math.round(draw_buffer[i]) <= 0)
-                        draw_buffer[i] = 0
-
-                if(draw_buffer[i] >= GRAP.height * 0.5)
-                    draw_buffer[i] = GRAP.height * 0.5;
+                    draw_buffer[i] = 0
+                else if(draw_buffer[i] > MaxAudioHeight){
+                    last_buffer[i] = MaxAudioHeight;
+                    continue;
+                }
 
                 last_buffer[i] = draw_buffer[i];
             }
@@ -323,19 +397,60 @@ GetB64FromFile = (url, res, warn) => {
     //fps_max
     window.wallpaperPropertyListener = {
         applyUserProperties: (properties) => {
-            SETTINGS.fps_show = properties.fps_show != undefined ? properties.fps_show.value : SETTINGS.fps_show;
-            SETTINGS.td_show = properties.td_show != undefined ? properties.td_show.value : SETTINGS.td_show;
-            SETTINGS.draw_audio = properties.show_audio != undefined ? properties.show_audio.value : SETTINGS.draw_audio;
-            SETTINGS.max_particles = properties.max_particles != undefined ?!isNaN(parseInt(properties.max_particles.value)) ? parseInt(properties.max_particles.value) : SETTINGS.max_particles : SETTINGS.max_particles;
-            SETTINGS.particle_size = properties.particle_size != undefined ?!isNaN(parseInt(properties.particle_size.value)) ? parseInt(properties.particle_size.value) : SETTINGS.particle_size : SETTINGS.particle_size;
+            //Показывать фпс
+            SETTINGS.fps_show = properties.fps_show != undefined ? 
+                properties.fps_show.value : SETTINGS.fps_show;
+            //Дата и время
+            SETTINGS.td_show = properties.td_show != undefined ? 
+                properties.td_show.value : SETTINGS.td_show;
+            //Рисовать визуализацию
+            SETTINGS.draw_audio = properties.show_audio != undefined ? 
+                properties.show_audio.value : SETTINGS.draw_audio;
+            //Мксимальное количество частиц
+            SETTINGS.max_particles = properties.max_particles != undefined ? 
+                !isNaN(parseInt(properties.max_particles.value)) ? parseInt(properties.max_particles.value) : SETTINGS.max_particles : SETTINGS.max_particles;
+            //Размер частиц
+            SETTINGS.particle_size = properties.particle_size != undefined ? 
+                !isNaN(parseInt(properties.particle_size.value)) ? parseInt(properties.particle_size.value) : SETTINGS.particle_size : SETTINGS.particle_size;
+            //Тип визуализации
             SETTINGS.avt = properties.audio_type != undefined ?
                 !isNaN(parseInt(properties.audio_type.value)) ? parseInt(properties.audio_type.value) - 1 : SETTINGS.avt : SETTINGS.avt;
+            //Радиус визуализации
             SETTINGS.avt_radius = properties.innerRadius != undefined ?
                 !isNaN(parseInt(properties.innerRadius.value)) ? parseInt(properties.innerRadius.value) : SETTINGS.avt_radius : SETTINGS.avt_radius;
-            
-            console.log(properties.background);
+            //Непрозрачность
+            SETTINGS.audio_devade.opacity = properties.audio_w_opacity != undefined ?
+                !isNaN(parseInt(properties.audio_w_opacity.value)) ? parseInt(properties.audio_w_opacity.value) : SETTINGS.audio_devade.opacity : SETTINGS.audio_devade.opacity;
+            //Смещение визуализации по x
+            SETTINGS.avt_center.x = properties.audio_step_x != undefined ?
+                !isNaN(parseInt(properties.audio_step_x.value)) ? parseInt(properties.audio_step_x.value) : SETTINGS.avt_center.x : SETTINGS.avt_center.x;
+            //Смещение визуализации по y
+            SETTINGS.avt_center.y = properties.audio_step_y != undefined ?
+                !isNaN(parseInt(properties.audio_step_y.value)) ? parseInt(properties.audio_step_y.value) : SETTINGS.avt_center.y : SETTINGS.avt_center.y;
+            //Цвет визуализации
+            SETTINGS.audio_devade.color = properties.audio_w_color != undefined ?
+                get_color(properties.audio_w_color.value.split(" ")) : SETTINGS.audio_devade.color;
+            //Заливка визуализации
+            SETTINGS.avt_fill = properties.audio_fill != undefined ?
+                properties.audio_fill.value : SETTINGS.avt_fill;
+            //Сглаживание аудио
+            SETTINGS.avt_smoothing = properties.audio_smoothing != undefined ?
+                properties.audio_smoothing.value - 1 : SETTINGS.avt_smoothing;
+            //Сила сглаживания
+            SETTINGS.avt_smoothing_power = properties.audio_smoothing_power != undefined ?
+                properties.audio_smoothing_power.value : SETTINGS.avt_smoothing_power;
 
-            if(properties.background !== undefined){
+            if(properties.audio_w_opacity != undefined){
+                SETTINGS.audio_devade.color = get_color(
+                    [
+                        SETTINGS.audio_devade.pract.r,
+                        SETTINGS.audio_devade.pract.g,
+                        SETTINGS.audio_devade.pract.b
+                    ]
+                )
+            }
+
+            if(properties.background != undefined){
                 if(properties.background.value !== ""){
                     GetB64FromFile(decodeURIComponent("file:///" + properties.background.value), res => {
                         ChangeBG(res);
